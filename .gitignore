@@ -1,5 +1,6 @@
 # Binaries
 *.exe
+run.sh
 
 # IDE
 .vscode
@@ -8,4 +9,3 @@
 
 # Environment
 .env
-
