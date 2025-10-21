@@ -1,0 +1,32 @@
+echo "🚀 Запуск проекта Word-Cards..."
+
+# Проверяем, установлен ли Docker
+if ! command -v docker &> /dev/null; then
+    echo "❌ Docker не установлен. Пожалуйста, установите Docker сначала."
+    exit 1
+fi
+
+# Проверяем, запущен ли LibreTranslate
+if ! docker-compose ps | grep -q "libretranslate.*Up"; then
+    echo "📦 Запускаем LibreTranslate..."
+    docker-compose up -d libretranslate
+    echo "⏳ Ждем запуска сервиса перевода..."
+    sleep 10  # Даем больше времени на первый запуск
+else
+    echo "✅ LibreTranslate уже запущен"
+fi
+
+# Проверяем, что сервис перевода действительно работает
+echo "🔍 Проверяем работу перевода..."
+response=$(curl -s -X POST "http://localhost:5000/translate" \
+  -H "Content-Type: application/json" \
+  -d '{"q":"привет", "source":"ru", "target":"en", "format":"text"}' || echo "error")
+
+if [[ $response == *"error"* ]] || [[ $response != *"hello"* ]]; then
+    echo "⚠️  Переводчик еще не готов. Ждем еще..."
+    sleep 10
+fi
+
+echo "🤖 Запускаем бота..."
+cd "$(dirname "$0")"  # Переходим в директорию скрипта
+go run ./cmd/bot
