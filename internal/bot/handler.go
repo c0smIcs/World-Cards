@@ -28,53 +28,6 @@ func (b *Bot) HandleStartCommand(c tele.Context) error {
 	return c.Send("Привет! Это бот, который поможет тебе изучить/повторить слова на английском языке. Удачи!")
 }
 
-// здесь старый HandleAddCommand
-/*
-// HandleAddCommand - обрабатывает команду добавления новой пары слов.
-// ожидается формат: /add <оригинал> <перевод>
-func (b *Bot) HandleAddCommand(c tele.Context) error {
-	userID := c.Sender().ID  // получаем ID пользователя
-	text := c.Message().Text // получаем текст сообщения
-
-	// убираем команду /add из текста, чтобы остались только аргументы
-	text = strings.TrimPrefix(text, "/add")
-	// убираем лишние пробелы по краям
-	text = strings.TrimSpace(text)
-
-	// проверяем что пользователь ввел что-то кроме команды
-	if text == "" {
-		return c.Send("Неверный формат. Используйте: /add слово перевод")
-	}
-
-	// разбиваем оставшийся текст на части по пробелу
-	parts := strings.Split(text, " ")
-
-	// проверяем, что есть минимум 2 части (слово и перевод)
-	if len(parts) < 2 {
-		return c.Send("Неверный формат. Используйте: /add слово перевод")
-	}
-
-	// первая часть - оригинальное слово
-	original := parts[0]
-
-	// перевод слова
-	translation := parts[1]
-
-	// создаем новое слово
-	word := WordPair{
-		UserID:     userID,
-		Original:   original,
-		Translated: translation,
-	}
-
-	// сохраняем в память
-	b.UserWords[userID] = append(b.UserWords[userID], word)
-
-	response := "Добавлено: " + original + " - " + translation
-	return c.Send(response)
-}
-*/
-
 // HandleGoCommand является оберткой для запуска сессии обучения в обычном режиме
 func (b *Bot) HandleGoCommand(c tele.Context) error {
 	return b.startLearningSession(c, false)
