@@ -1,6 +1,7 @@
 # Binaries
 *.exe
 run.sh
+.drawio
 
 # IDE
 .vscode
