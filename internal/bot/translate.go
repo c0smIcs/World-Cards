@@ -69,7 +69,6 @@ func (lt *LibreTranslator) Translate(text string, sourceLang string, targetLang 
 
 	// 5. Верни переведенный текст
 	return translateResp.TranslatedText, nil
-
 }
 
 func NewLibreTranslator(apiURL string, apiKey string) *LibreTranslator {
